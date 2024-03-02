@@ -14,13 +14,11 @@ products=result.find_all("div",{"class":'sg-col-4-of-24 sg-col-4-of-12 s-result-
 names=[]
 prices=[]
 links=[]
-
+#for item in products:
 #for item in products:
  #   names.append(item.a.string)
   #  prices.append(item.h4.string)
    # links.append("https://www.amazon.in/" + item.a['href'])
-   #hii
-
 print(products[0].prettify())
 print(products[0].a.string)
 print(products[0].h4.string)
