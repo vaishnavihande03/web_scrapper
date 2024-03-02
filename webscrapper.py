@@ -19,6 +19,7 @@ links=[]
  #   names.append(item.a.string)
   #  prices.append(item.h4.string)
    # links.append("https://www.amazon.in/" + item.a['href'])
+   #hii
 
 print(products[0].prettify())
 print(products[0].a.string)
