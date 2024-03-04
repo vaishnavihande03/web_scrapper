@@ -4,16 +4,17 @@ import pandas
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
-#inp=input("enter the link here:") #amazon link
-#print(inp)
-webpage=(requests.get("https://www.naturesbasket.co.in/Online-grocery-shopping/Bakery-Dairy/Bakery/224_0_0"))
+inp=input("enter the link here:") #amazon link
+print(inp)
+webpage=(requests.get(inp))
 content=webpage.content
 
 result=BeautifulSoup(content,'html.parser')
 # print(result.html.attrs)
 #print(result.prettify())
 #print(result.title.prettify())
-products=result.find_all("div",{"class":'Search'}) #product class
+products_common_tag=input("enter the Products Common Tag here:") #amazon link
+products=result.find_all("div",{"class":products_common_tag}) #product class
 #print(products[0].div.string) #price
 
 names=[]
