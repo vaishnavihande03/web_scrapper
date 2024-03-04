@@ -1,31 +1,38 @@
 import random
-
 import pandas
+import datetime
 import openpyxl
 import requests
 from bs4 import BeautifulSoup
-inp=input("enter the link here:") #amazon link
+
+#provide the link
+inp=input("enter the link here:")
 print(inp)
 webpage=(requests.get(inp))
 content=webpage.content
-
 result=BeautifulSoup(content,'html.parser')
-# print(result.html.attrs)
-#print(result.prettify())
-#print(result.title.prettify())
-products_common_tag=input("enter the Products Common Tag here:") #amazon link
-products=result.find_all("div",{"class":products_common_tag}) #product class
-#print(products[0].div.string) #price
 
+#enter the product common tag here:
+products_common_tag=input("enter the Products Common Tag here:")
+products=result.find_all("div",{"class":products_common_tag}) #product class
+
+#create the list
 names=[]
 prices=[]
 links=[]
 print("Total Products:", len(products))
+
+#give the input tag for name,price and links
+tag_input = input("Enter the product naming tag: ")
+product_tag = input("enter the tag for price:")
+product_link = input("enter the tag for product link:")
+
+
 for product in products:
-    # print(product)
-    product_name_tag = product.find('a', class_='search_Ptitle')
-    product_pricc_tag = product.find('span',class_='search_PSellingP')
-    product_pricc_image = product.find('div',class_='pro-buck-img')
+    product_name_tag = product.find('a', {"class":tag_input} )
+    product_pricc_tag = product.find('span',{"class":product_tag})
+    product_pricc_image = product.find('div',{"class":product_link})
+
     if product_name_tag:
         product_name = product_name_tag.text.strip()
         print("Product Name:", product_name)
@@ -49,80 +56,21 @@ for product in products:
     else:
         print("Product Link Not Available")
         links.append("NA")
-    # product_name_tag = product.div.div
-    # print(product_name_tag)
-# print(len(products))
-"""
-products = result.find_all('id', {'id':"ctl00_ContentPlaceHolder1_divSearchData")
 
-for product_div in product_divs:
-    
-product_price_tag = product_div.find('span', class_='search_PSellingP')
-
-if product_name_tag and product_price_tag:
-    product_name = product_name_tag.text.strip()
-product_price = product_price_tag.text.strip()
-
-print(f"Product Name: {product_name}, Price: {product_price}")
-else:
-print("Product name or price not found for a product.")
-"""
-# print(products[0].prettify())
-print("product 1")
-# name1=products[0].div.div
-# print(name1)
-#product_tags = products.find_all('a', class_='search_Ptitle linkdisabled')
-"""
-"""
-"""
-if product_tags:
-    for product_tag in product_tags:
-        product_name = product_tag.text.strip()
-        print(product_name)
-else:
-    print("Product tags not found.")
-"""
-#desired_tag = result.find('a', {'class':'search_Ptitle linkdisabled'})
-#print(products[0].a.string)
-# Find the desired tag using its class attribute
-#desired_tag = result.find('a', {'class'='search_Ptitle linkdisabled')
-
-# Check if the tag was found before accessing its text attribute
-#result = desired_tag.text if desired_tag else "Tag not found"
-
-#print(result)
-#print(desired_tag.text)
-#print(products[1].h4.string)
-#print(products[0].div[3].a['title'].string)   #name
-
-#for parent_div in products:
- #   child_a = parent_div.find('a', class_='search_Ptitle')
-  #  print(child_a.string)
-    #link
-# link="https://www.webscraper.io/" + products[0].a['href']
-# print(link)
-#print(products[0].div.string) #price
-
-# names=[]
-# prices=[]
-# links=[]
-"""
-"""
-"""
-for items in products:
-    names.append(items.a.string)
-    prices.append(items.h4.string)
-    links.append( "https://www.webscraper.io/" + items.a['href'])
-"""
-
+# Use zip function
 data=list(zip(names,prices,links))
 print(data)
 
-# d=pandas.DataFrame(data,columns=[names,prices,links])
+#to display data in proper format
 d=pandas.DataFrame(data)
 
+# Generate a timestamp to include in the file name
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+# Concatenate the timestamp with the file name
+file_name = f"data_{timestamp}.xlsx"
 try:
-    d.to_excel("data4.xlsx")
+    d.to_excel(file_name)
 except:
     print("something is wrong")
 else:
