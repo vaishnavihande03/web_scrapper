@@ -29,10 +29,12 @@ product_link = input("enter the tag for product link:")
 
 
 for product in products:
+    # Finding Appropriate Tags for product Name, Price & Product Link
     product_name_tag = product.find('a', {"class":tag_input} )
-    product_pricc_tag = product.find('span',{"class":product_tag})
-    product_pricc_image = product.find('div',{"class":product_link})
+    product_price_tag = product.find('span',{"class":product_tag})
+    product_link_tag = product.find('div',{"class":product_link})
 
+    # Checking the Values & Adding to the appropriate lists
     if product_name_tag:
         product_name = product_name_tag.text.strip()
         print("Product Name:", product_name)
@@ -41,18 +43,18 @@ for product in products:
         print("Product Name Not Available")
         names.append("NA")
 
-    if product_pricc_tag:
-        product_price = product_pricc_tag.text.strip()
+    if product_price_tag:
+        product_price = product_price_tag.text.strip()
         print("Product Price:", product_price)
         prices.append(product_price)
     else:
         print("Product Price Not Available")
         prices.append("NA")
 
-    if product_pricc_image:
-        product_image_link = product_pricc_image.a['href']
-        print("Product Image:", product_image_link)
-        links.append(product_image_link)
+    if product_link_tag:
+        product_link_url = product_link_tag.a['href']
+        print("Product Link:", product_link_url)
+        links.append(product_link_url)
     else:
         print("Product Link Not Available")
         links.append("NA")
